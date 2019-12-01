@@ -6,6 +6,7 @@ A simple implementation of a distributed in-memory key-value store using golang
 
 ## TODO
 - key-value store implementation
+- dockerize
 - add RAFT implementation for distributed capability via consensus
 - implement an abstraction layer to the kv store to support other kv stores
 - try-out/support other kv stores like RocksDB, memcached, redis
