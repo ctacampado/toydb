@@ -2,7 +2,7 @@
 A simple implementation of a distributed in-memory key-value store using golang
 
 ## STATUS
-- implemented a very basic logge, toylog
+- implemented a very basic logger toylog
 
 ## TODO
 - key-value store implementation
