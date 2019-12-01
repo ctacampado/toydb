@@ -4,7 +4,7 @@ CMD_BLD = go build
 FLAGS = -o ${TARGET}
 FILES = cmd/toykv/main.go
 
-all: clean build
+all: build
 clean:
 	rm ${BIN}/${TARGET}
 build:
