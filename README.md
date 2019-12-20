@@ -5,9 +5,8 @@ A simple implementation of a distributed in-memory key-value store using golang
 - implemented a very basic logger, toylog
 
 ## TODO
-- key-value store implementation
+- key-value store implementation the following KV stores: RocksDB, memcached, redis
 - dockerize
-- add RAFT implementation for distributed capability via consensus
+- add implementation for distributed capability via consensus (raft, tendermint)
 - implement an abstraction layer to the kv store to support other kv stores
-- try-out/support other kv stores like RocksDB, memcached, redis
 - add an SQL layer
