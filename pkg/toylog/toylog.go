@@ -12,6 +12,7 @@ import (
 	"log"
 	"os"
 	"reflect"
+	"time"
 )
 
 // LogLvl is a custom type based on int.
@@ -36,7 +37,7 @@ const (
 type ToyLog struct {
 	name   string      // name of the logger used for labeling logs for easier tracing
 	lvl    LogLvl      // logging level
-	file   *os.File    // output file where logs are logged
+	File   *os.File    // stdout or file
 	logger *log.Logger // pointer to the active logger object
 }
 
@@ -51,7 +52,7 @@ func NewToyLog(args ...interface{}) (*ToyLog, error) {
 	tl := &ToyLog{
 		name: "logger",
 		lvl:  0,
-		file: os.Stdout,
+		File: os.Stdout,
 	}
 
 	for _, arg := range args {
@@ -64,9 +65,15 @@ func NewToyLog(args ...interface{}) (*ToyLog, error) {
 			if a >= 0 && a <= EMRG {
 				tl.lvl = a
 			}
-		case *os.File:
-			if a != nil {
-				tl.file = a
+		case bool:
+			if a == true {
+				fname := time.Now().Format("2006_01_02_15_04_05") + ".log"
+				f, err := os.OpenFile(fname,
+					os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+				if err != nil {
+					return nil, err
+				}
+				tl.File = f
 			}
 		default:
 			err := fmt.Sprintf("unknown parameter '%v' of type %s\n", arg, reflect.TypeOf(arg))
@@ -74,8 +81,13 @@ func NewToyLog(args ...interface{}) (*ToyLog, error) {
 		}
 	}
 
-	tl.logger = log.New(tl.file, tl.name, log.LstdFlags)
+	tl.logger = log.New(tl.File, tl.name, log.LstdFlags)
 	return tl, nil
+}
+
+// Close log file
+func (t *ToyLog) Close() {
+	t.File.Close()
 }
 
 // Info level is a logging level that uses log.LstdFlags only.
